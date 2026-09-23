@@ -25,7 +25,7 @@ Berfungsi sebagai cetak biru untuk entitas barang di gudang logistik[cite: 5].
 
 > 📸 **Dokumentasi Output Class Barang:**
 > ![Screenshot Output Tes Barang](https://github.com/arrosyidmahmuda/Praktikum-PBO/blob/6caf4136ffe0e17583c82bfa6b80eff81804347a/posttest_1/Cuplikan%20layar%202026-09-23%20184917.png)
-> *(Ganti teks di dalam kurung dengan path/link screenshot hasil output bagian "1. TES CLASS BARANG")*
+> *1. TES CLASS BARANG*
 
 #### B. Class `Manufaktur`[cite: 5]
 Mewakili divisi yang menangani proses perakitan atau produksi barang[cite: 5].
