@@ -71,5 +71,5 @@ Pengujian program dilakukan secara otomatis saat menjalankan file `praktikum1.py
 *   **Interaksi Antar-Objek:** Memastikan bahwa pemanggilan `proses_produksi(20)` pada pabrik dan `eksekusi_transaksi()` berhasil memperbarui stok pada master data barang secara sinkron[cite: 5].
 
 > 📸 **Dokumentasi Rangkuman Hasil Akhir:**
-> ![Screenshot Output Rangkuman](path/to/gambar_rangkuman_akhir.png)
+> ![Screenshot Output Rangkuman](https://github.com/arrosyidmahmuda/Praktikum-PBO/blob/f339f3ba5027b69b968638005c48b49aa4b36df3/posttest_1/Cuplikan%20layar%202026-09-23%20184957.png)
 > *(Ganti teks di dalam kurung dengan path/link screenshot hasil terminal yang menunjukkan bagian "RANGKUMAN HASIL AKHIR")*
