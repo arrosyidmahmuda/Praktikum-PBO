@@ -11,11 +11,11 @@ Program SIGMA adalah simulasi sistem informasi berbasis Pemrograman Berorientasi
 ---
 
 ### 2. Struktur Class dan Arsitektur
-Program ini terdiri dari tiga kelas utama yang saling berinteraksi[cite: 5]:
+Program ini terdiri dari tiga kelas utama yang saling berinteraksi:
 
 #### A. Class "Barang"
 Berfungsi sebagai cetak biru untuk entitas barang di gudang logistik.
-*   **Atribut Kelas:** `nama_instansi` bernilai "SIGMA Logistics Center" dan `total_jenis_barang` untuk melacak jumlah variasi barang[cite: 5].
+*   **Atribut Kelas:** `nama_instansi` bernilai "SIGMA Logistics Center" dan `total_jenis_barang` untuk melacak jumlah variasi barang.
 *   **Atribut Instance:** `kode_barang`, `nama_barang`, `harga`, dan atribut *private* `__stok`.
 *   **Encapsulation:** Akses ke `__stok` diatur menggunakan `@property` dan `@stok.setter` yang memvalidasi agar input berupa integer dan tidak bernilai negatif.
 *   **Method Utama:** 
