@@ -39,7 +39,7 @@ Mewakili divisi yang menangani proses perakitan atau produksi barang[cite: 5].
 
 > 📸 **Dokumentasi Output Class Manufaktur:**
 > ![Screenshot Output Tes Manufaktur](https://github.com/arrosyidmahmuda/Praktikum-PBO/blob/65394cc41f07d7fbbb4a68b70f7e556421553149/posttest_1/Cuplikan%20layar%202026-09-23%20184943.png)
-> *(Ganti teks di dalam kurung dengan path/link screenshot hasil output bagian "2. TES CLASS MANUFAKTUR")*
+>2. TES CLASS MANUFAKTUR
 
 #### C. Class `ArusBarang`[cite: 5]
 Mengatur dan mencatat lalu lintas barang, baik yang masuk ke maupun keluar dari gudang[cite: 5].
@@ -52,7 +52,7 @@ Mengatur dan mencatat lalu lintas barang, baik yang masuk ke maupun keluar dari 
     *   `validasi_jenis_transaksi()`: *Static method* untuk memastikan jenis transaksi hanya bernilai "MASUK" atau "KELUAR"[cite: 5].
 
 > 📸 **Dokumentasi Output Class Arus Barang:**
-> ![Screenshot Output Tes Arus Barang](path/to/gambar_tes_arus_barang.png)
+> ![Screenshot Output Tes Arus Barang](https://github.com/arrosyidmahmuda/Praktikum-PBO/blob/f339f3ba5027b69b968638005c48b49aa4b36df3/posttest_1/Cuplikan%20layar%202026-09-23%20184957.png)
 > *(Ganti teks di dalam kurung dengan path/link screenshot hasil output bagian "3. TES CLASS ARUS BARANG")*
 
 ---
@@ -64,12 +64,3 @@ Pengujian program dilakukan secara otomatis saat menjalankan file `praktikum1.py
 1. Buka terminal atau command prompt.
 2. Navigasikan ke direktori tempat file `praktikum1.py` berada.
 3. Jalankan perintah: `python praktikum1.py`
-
-**Skenario yang Diuji[cite: 5]:**
-*   **Validasi Masukan Salah:** Program akan mencetak pesan "[Ups, Gagal!]" jika pengujian memasukkan stok negatif (-5) atau string ("banyak")[cite: 5]. Validasi serupa juga menguji target produksi dengan nilai 0 dan jumlah transaksi minus (-10)[cite: 5].
-*   **Pemanggilan Static & Class Method:** Memastikan validasi kode `BRG-001` memberikan hasil `True` dan `LPT-123` memberikan hasil `False`, serta mengubah standar mutu pabrik menjadi "ISO-9001:2026"[cite: 5].
-*   **Interaksi Antar-Objek:** Memastikan bahwa pemanggilan `proses_produksi(20)` pada pabrik dan `eksekusi_transaksi()` berhasil memperbarui stok pada master data barang secara sinkron[cite: 5].
-
-> 📸 **Dokumentasi Rangkuman Hasil Akhir:**
-> ![Screenshot Output Rangkuman](https://github.com/arrosyidmahmuda/Praktikum-PBO/blob/f339f3ba5027b69b968638005c48b49aa4b36df3/posttest_1/Cuplikan%20layar%202026-09-23%20184957.png)
-> *(Ganti teks di dalam kurung dengan path/link screenshot hasil terminal yang menunjukkan bagian "RANGKUMAN HASIL AKHIR")*
