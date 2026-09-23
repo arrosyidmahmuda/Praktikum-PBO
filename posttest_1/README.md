@@ -38,7 +38,7 @@ Mewakili divisi yang menangani proses perakitan atau produksi barang[cite: 5].
     *   `hitung_estimasi_waktu()`: *Static method* untuk mengkalkulasi waktu produksi berdasarkan jumlah unit dan kecepatan per jam[cite: 5].
 
 > 📸 **Dokumentasi Output Class Manufaktur:**
-> ![Screenshot Output Tes Manufaktur][(path/to/gambar_tes_manufaktur.png)](https://github.com/arrosyidmahmuda/Praktikum-PBO/blob/65394cc41f07d7fbbb4a68b70f7e556421553149/posttest_1/Cuplikan%20layar%202026-09-23%20184943.png)
+> ![Screenshot Output Tes Manufaktur](https://github.com/arrosyidmahmuda/Praktikum-PBO/blob/65394cc41f07d7fbbb4a68b70f7e556421553149/posttest_1/Cuplikan%20layar%202026-09-23%20184943.png)
 > *(Ganti teks di dalam kurung dengan path/link screenshot hasil output bagian "2. TES CLASS MANUFAKTUR")*
 
 #### C. Class `ArusBarang`[cite: 5]
