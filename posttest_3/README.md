@@ -1,89 +1,145 @@
-# SIGMA Logistics & Manufacturing System
+# Posttest Pemrograman Berorientasi Objek — SIGMA Logistics & Manufacturing System
 
-Program Python berbasis OOP yang mensimulasikan alur **logistik dan manufaktur** pada SIGMA Logistics Center: barang (elektronik dan pakaian) diproduksi oleh divisi manufaktur, bahan bakunya dikirim oleh supplier, lalu barang keluar-masuk gudang lewat transaksi distribusi.
+## 1. Deskripsi Program
 
-Cara menjalankan:
+**SIGMA Logistics & Manufacturing System** adalah program Python berbasis *Object-Oriented Programming* (OOP) untuk menyimulasikan pengelolaan barang di lingkungan logistik dan manufaktur. Program mencakup data barang elektronik dan pakaian, proses produksi, pengiriman bahan baku oleh supplier, serta transaksi barang masuk dan keluar gudang.
 
-```bash
-python main.py
-```
+Pada posttest ini, program menerapkan relasi UML, abstraksi menggunakan `ABC`, inheritance, polimorfisme melalui overriding, duck typing, dan operator overloading.
 
----
+## 2. Daftar Kelas
 
-## 1. Class Diagram
-
-![Class Diagram](/assets/Class_diagram.png)
-
-| Simbol | Arti |
+| Kelas | Peran |
 |---|---|
-| Panah terbuka (`──>`) | Asosiasi |
-| Belah ketupat **kosong** (`◇──`) | Agregasi |
-| Belah ketupat **hitam** (`◆──`) | Komposisi |
-| Segitiga kosong (`──▷`) | Pewarisan |
+| `Supplier` | Mengirim bahan baku untuk proses manufaktur. |
+| `MesinProduksi` | Merepresentasikan mesin yang digunakan dalam proses produksi. |
+| `Barang` | Abstract base class yang mendefinisikan perilaku umum barang. |
+| `BarangElektronik` | Subclass `Barang` untuk barang elektronik; memiliki atribut `daya_watt`. |
+| `BarangPakaian` | Subclass `Barang` untuk barang pakaian; memiliki atribut `ukuran` dan `_bahan`. |
+| `Manufaktur` | Mengelola proses produksi dan menyimpan referensi barang jadi serta mesin produksi. |
+| `ArusBarang` | Mengelola transaksi barang masuk dan keluar. |
 
-### Penjelasan Relasi
+## 3. Class Diagram
 
-**Asosiasi: `Supplier` → `Manufaktur`**
-`Supplier` hanya menggunakan `Manufaktur` sebagai parameter pada method `kirim_bahan_baku(manufaktur)`, tanpa menyimpannya sebagai atribut. Hubungannya longgar: supplier cukup tahu manufaktur mana yang dikirimi bahan baku.
+![Class Diagram SIGMA Logistics & Manufacturing System](assets/Class_diagram.png)
 
-**Agregasi: `Manufaktur` ◇→ `Barang` dan `ArusBarang` ◇→ `Barang`**
-Objek `Barang` dibuat di luar (di `main`), lalu dimasukkan lewat constructor (`produk_jadi` pada `Manufaktur`, `barang` pada `ArusBarang`). Ini agregasi, bukan komposisi, karena `Barang` hidup mandiri: objek `barang_elektronik` dipakai bersama oleh `Manufaktur` dan `ArusBarang`, dan tetap ada walaupun salah satunya dihapus.
+Keterangan simbol UML:
 
-**Komposisi: `Manufaktur` ◆→ `MesinProduksi`**
-`MesinProduksi` dibuat langsung di dalam constructor `Manufaktur` (`self.mesin_lini = MesinProduksi(f"Robot-Assembly-{self.id_produksi}")`). Ini komposisi karena mesin itu bagian dari satu lini produksi saja, namanya mengikuti `id_produksi`, tidak dibuat atau dipakai di luar `Manufaktur`, dan siklus hidupnya mengikuti pemiliknya. Jika `Manufaktur` dihapus, mesinnya ikut hilang.
+- `-->` Asosiasi
+- `◇--` Agregasi (belah ketupat kosong)
+- `◆--` Komposisi (belah ketupat hitam)
+- `--|>` Pewarisan / inheritance
 
----
+### 3.1 Asosiasi — `Supplier` dan `Manufaktur`
 
-## 2. Abstraksi
+`Supplier` berasosiasi dengan `Manufaktur` melalui method `kirim_bahan_baku(manufaktur)`. Objek manufaktur hanya digunakan sebagai parameter untuk mengetahui ID produksi yang menerima bahan baku, tanpa disimpan sebagai atribut supplier.
 
-| Ketentuan | Penerapan di kode |
-|---|---|
-| Abstract class (ABC) | `Barang(ABC)` |
-| Minimal 2 `@abstractmethod` | `tampilkan_detail()` dan `hitung_biaya_simpan()` |
-| Minimal 2 subclass mengimplementasikan semuanya | `BarangElektronik` dan `BarangPakaian` |
-| Method konkret yang dipakai bersama | `hitung_nilai_stok()` dan `cetak_laporan()` (method template, mirip `jalankan()` di materi: memanggil abstract method milik tiap subclass) |
-| Bukti tidak bisa diinstansiasi | `try: Barang(...) except TypeError` pada bagian *4. BUKTI ABSTRAKSI* di `main` |
+### 3.2 Agregasi — `Manufaktur`/`ArusBarang` dan `Barang`
 
-Konsep inheritance dari posttest sebelumnya tetap dipakai:
+`Manufaktur` menyimpan objek barang pada atribut `produk_jadi`, sedangkan `ArusBarang` menyimpan objek barang pada atribut `barang`. Relasi ini merupakan agregasi karena objek barang dibuat secara terpisah dan dapat digunakan bersama oleh proses manufaktur maupun transaksi; keberadaan barang tidak bergantung pada satu objek manufaktur atau transaksi.
 
-- `super().__init__(...)` di `BarangElektronik` dan `BarangPakaian`.
-- Atribut unik tiap subclass: `daya_watt` (elektronik), `ukuran` dan `_bahan` (pakaian).
-- Atribut **protected** `_harga`, `_bahan` dan atribut **private** `__stok`, `__target_produksi`, `__jumlah_barang`.
+### 3.3 Komposisi — `Manufaktur` dan `MesinProduksi`
 
----
+`Manufaktur` membuat objek `MesinProduksi` secara langsung di dalam constructor melalui `self.mesin_lini = MesinProduksi(...)`. Dalam rancangan program ini, mesin tersebut diperlakukan sebagai bagian internal dari satu objek manufaktur dan tidak diberikan dari luar, sehingga relasinya dimodelkan sebagai komposisi.
 
-## 3. Polimorfisme
+## 4. Abstraksi
 
-**Polimorfisme via pewarisan.**
-`tampilkan_detail()` dan `hitung_biaya_simpan()` di-override oleh `BarangElektronik` dan `BarangPakaian` dengan perilaku berbeda (elektronik: 1% dari nilai stok; pakaian: Rp2.000 per unit). Keduanya dipanggil lewat satu loop `for barang in daftar_barang: barang.cetak_laporan()` (bagian *5. POLIMORFISME VIA PEWARISAN*).
+Kelas `Barang` mewarisi `ABC` dari modul `abc` dan memiliki dua abstract method, yaitu `tampilkan_detail()` dan `hitung_biaya_simpan()`. Kedua method wajib diimplementasikan oleh subclass konkret `BarangElektronik` dan `BarangPakaian`.
 
-**Duck typing.**
-`Manufaktur` dan `ArusBarang` tidak berhubungan lewat pewarisan, tetapi sama-sama punya method `cetak_status()`. Keduanya dipanggil lewat satu fungsi, `tampilkan_status(objek)` (bagian *6. DUCK TYPING*).
+Kelas `Barang` juga memiliki method konkret yang dapat digunakan bersama:
 
-**Operator overloading.**
-Pada kelas `Barang`: `__str__` (teks `kode - nama`), `__lt__` (membandingkan harga, sehingga objek bisa di-`sorted()`), dan `__add__` (menjumlahkan nilai stok dua barang). Bagian *7. OPERATOR OVERLOADING*.
+- `hitung_nilai_stok()` menghitung nilai stok berdasarkan jumlah stok dikali harga.
+- `cetak_laporan()` memanggil `tampilkan_detail()` dan `hitung_biaya_simpan()`, sehingga hasilnya mengikuti implementasi masing-masing subclass.
 
-Bagian polimorfisme di atas tidak memakai rantai `if/elif` yang mengecek `type()` atau string jenis; setiap objek menentukan perilakunya sendiri lewat method.
+Bukti bahwa abstract class tidak dapat diinstansiasi ditampilkan melalui percobaan membuat objek `Barang` di dalam blok `try-except TypeError`. Python menolak pembuatan objek karena abstract method belum diimplementasikan.
 
----
+Contoh output:
 
-## 4. Screenshot Output Program
-
-![Output Program](/assets/output1.png)
-![Output Program](/assets/output2.png)
-
-Bukti abstract class tidak bisa diinstansiasi ada pada bagian **4. BUKTI ABSTRAKSI**:
-
-```
+```text
+4. BUKTI ABSTRAKSI (ABSTRACT CLASS TIDAK BISA DIINSTANSIASI)
 TypeError: Can't instantiate abstract class Barang without an implementation for abstract methods 'hitung_biaya_simpan', 'tampilkan_detail'
 ```
 
----
+## 5. Polimorfisme
 
-## 5. Penerapan SOLID
+### 5.1 Polimorfisme melalui pewarisan
 
-**Open/Closed Principle (OCP)**
-Menambah jenis barang baru (misalnya `BarangMakanan`) cukup dengan membuat subclass dari `Barang` dan mengimplementasikan dua abstract method-nya. Loop `cetak_laporan()`, `sorted()`, operator `+`, `ArusBarang`, dan `Manufaktur` tidak perlu diubah, karena semuanya hanya memanggil method yang dijamin oleh `Barang`.
+Method `tampilkan_detail()` dan `hitung_biaya_simpan()` di-override oleh `BarangElektronik` dan `BarangPakaian`. Perhitungan biaya penyimpanan barang elektronik adalah 1% dari nilai stok, sedangkan biaya penyimpanan pakaian adalah Rp2.000 per unit.
 
-**Dependency Inversion Principle (DIP)**
-`ArusBarang` dan `Manufaktur` menerima objek barang lewat constructor (*dependency injection*) dan bergantung pada abstraksi `Barang`, bukan pada `BarangElektronik` atau `BarangPakaian` secara langsung. Karena itu keduanya bisa dipakai untuk jenis barang apa pun.
+Kedua objek disimpan dalam `daftar_barang`, kemudian diproses melalui satu loop:
+
+```python
+daftar_barang = [barang_elektronik, barang_pakaian]
+for barang in daftar_barang:
+    barang.cetak_laporan()
+```
+
+Method yang dipanggil sama, tetapi hasil detail dan biaya penyimpanannya berbeda sesuai subclass masing-masing. Program tidak menggunakan rantai `if/elif` untuk memeriksa tipe objek pada bagian polimorfisme ini.
+
+### 5.2 Duck typing
+
+Kelas `Manufaktur` dan `ArusBarang` tidak memiliki hubungan inheritance, tetapi keduanya menyediakan method `cetak_status()`. Fungsi `tampilkan_status(objek)` memanggil method tersebut tanpa perlu mengetahui kelas objek yang diberikan.
+
+Contoh pemanggilan:
+
+```python
+def tampilkan_status(objek):
+    objek.cetak_status()
+
+tampilkan_status(manufaktur1)
+tampilkan_status(transaksi1)
+```
+
+### 5.3 Operator overloading
+
+Kelas `Barang` menyediakan beberapa magic method:
+
+- `__str__()` mengatur representasi teks objek, misalnya `BRG-001 - Laptop Gaming`.
+- `__lt__()` memungkinkan dua objek barang dibandingkan dengan operator `<` berdasarkan harga.
+- `__add__()` memungkinkan dua objek barang dijumlahkan menggunakan operator `+` untuk memperoleh total nilai stok.
+
+Contoh penggunaan:
+
+```python
+print(str(barang_elektronik))
+print(barang_elektronik < barang_pakaian)
+print(barang_elektronik + barang_pakaian)
+```
+
+## 6. Inheritance dan Enkapsulasi
+
+`BarangElektronik` dan `BarangPakaian` memanggil `super().__init__(...)` untuk menggunakan konstruktor dari kelas `Barang`. Masing-masing subclass memiliki atribut unik: `daya_watt` untuk barang elektronik, serta `ukuran` dan `_bahan` untuk barang pakaian.
+
+Atribut `_harga` dan `_bahan` menggunakan konvensi **protected** Python. Atribut `__stok`, `__target_produksi`, dan `__jumlah_barang` menggunakan awalan dua garis bawah sebagai **private** melalui mekanisme *name mangling*. Properti `stok`, `target_produksi`, dan `jumlah_barang` juga menerapkan validasi ketika nilainya diubah.
+
+## 7. Penerapan SOLID (Nilai Plus)
+
+**Open/Closed Principle (OCP)** diterapkan melalui kelas abstrak `Barang`. Jenis barang baru dapat ditambahkan dengan membuat subclass baru yang mengimplementasikan `tampilkan_detail()` dan `hitung_biaya_simpan()`. Loop laporan dapat tetap menggunakan `cetak_laporan()` tanpa perlu menambahkan pemeriksaan tipe untuk setiap jenis barang.
+
+## 8. Screenshot Output Program
+
+Screenshot output program disimpan pada folder `assets`:
+
+![Output Program — Bagian 1](assets/output1.png)
+
+![Output Program — Bagian 2](assets/output2.png)
+
+Pastikan screenshot yang dikumpulkan memperlihatkan bagian berikut:
+
+1. Data barang dan proses manufaktur/distribusi.
+2. Pesan `TypeError` ketika program mencoba menginstansiasi `Barang`.
+3. Loop polimorfisme yang menampilkan laporan untuk barang elektronik dan pakaian.
+4. Pemanggilan duck typing dan contoh operator overloading (`__str__`, `<`, dan `+`).
+
+## 9. Cara Menjalankan Program
+
+Pastikan Python 3 sudah terpasang. Dari direktori proyek, jalankan:
+
+```bash
+python post3.py
+```
+
+Program menggunakan modul bawaan Python, yaitu `abc`, sehingga tidak memerlukan instalasi paket tambahan.
+
+## 10. Kesimpulan
+
+SIGMA Logistics & Manufacturing System menerapkan asosiasi, agregasi, dan komposisi pada relasi antarkelas yang digunakan dalam program. Abstraksi menetapkan kontrak perilaku barang melalui kelas `Barang`, sementara inheritance dan polimorfisme memungkinkan jenis barang memiliki perilaku berbeda. Duck typing memungkinkan fungsi yang sama memproses objek dari kelas berbeda, dan operator overloading memudahkan representasi serta perbandingan objek barang.
