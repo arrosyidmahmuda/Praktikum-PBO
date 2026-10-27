@@ -69,8 +69,8 @@ Bagian polimorfisme di atas tidak memakai rantai `if/elif` yang mengecek `type()
 
 ## 4. Screenshot Output Program
 
-![Output Program](/assets/Cuplikan%20layar%202026-10-27%20222037.png)
-![Output Program](/assets/Cuplikan%20layar%202026-10-27%20222047.png)
+![Output Program](/assets/output1.png)
+![Output Program](/assets/output2.png)
 
 Bukti abstract class tidak bisa diinstansiasi ada pada bagian **4. BUKTI ABSTRAKSI**:
 
@@ -80,7 +80,7 @@ TypeError: Can't instantiate abstract class Barang without an implementation for
 
 ---
 
-## 5. Nilai Plus: Penerapan SOLID
+## 5. Penerapan SOLID
 
 **Open/Closed Principle (OCP)**
 Menambah jenis barang baru (misalnya `BarangMakanan`) cukup dengan membuat subclass dari `Barang` dan mengimplementasikan dua abstract method-nya. Loop `cetak_laporan()`, `sorted()`, operator `+`, `ArusBarang`, dan `Manufaktur` tidak perlu diubah, karena semuanya hanya memanggil method yang dijamin oleh `Barang`.
