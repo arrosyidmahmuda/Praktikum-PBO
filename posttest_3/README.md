@@ -12,7 +12,7 @@ python main.py
 
 ## 1. Class Diagram
 
-![Class Diagram](class_diagram.png)
+![Class Diagram](/assets/Class_diagram.png)
 
 | Simbol | Arti |
 |---|---|
@@ -69,7 +69,8 @@ Bagian polimorfisme di atas tidak memakai rantai `if/elif` yang mengecek `type()
 
 ## 4. Screenshot Output Program
 
-![Output Program](screenshot_output.png)
+![Output Program](/assets/Cuplikan%20layar%202026-10-27%20222037.png)
+![Output Program](/assets/Cuplikan%20layar%202026-10-27%20222047.png)
 
 Bukti abstract class tidak bisa diinstansiasi ada pada bagian **4. BUKTI ABSTRAKSI**:
 

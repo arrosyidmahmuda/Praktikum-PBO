@@ -1,0 +1,88 @@
+digraph G {
+    rankdir=TB;
+    nodesep=0.9; ranksep=1.1;
+    bgcolor="white";
+    fontname="DejaVu Sans";
+    node [shape=plain, fontname="DejaVu Sans", fontsize=11];
+    edge [fontname="DejaVu Sans", fontsize=10, color="#222222"];
+
+    Supplier [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#E8EEF7"><B>Supplier</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ nama_supplier</TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ kirim_bahan_baku(manufaktur)</TD></TR>
+    </TABLE>>];
+
+    Manufaktur [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#E8EEF7"><B>Manufaktur</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ id_produksi<BR ALIGN="LEFT"/>+ produk_jadi<BR ALIGN="LEFT"/>+ mesin_lini<BR ALIGN="LEFT"/>- __target_produksi<BR ALIGN="LEFT"/></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ proses_produksi(jumlah_hasil)<BR ALIGN="LEFT"/>+ cetak_status()<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+    MesinProduksi [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#E8EEF7"><B>MesinProduksi</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ nama_mesin<BR ALIGN="LEFT"/>+ status<BR ALIGN="LEFT"/></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ info_mesin()</TD></TR>
+    </TABLE>>];
+
+    ArusBarang [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#E8EEF7"><B>ArusBarang</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ id_transaksi<BR ALIGN="LEFT"/>+ barang<BR ALIGN="LEFT"/>+ jenis_transaksi<BR ALIGN="LEFT"/>- __jumlah_barang<BR ALIGN="LEFT"/></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ eksekusi_transaksi(jumlah)<BR ALIGN="LEFT"/>+ cetak_status()<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+    Barang [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#FFF3D6"><I>&laquo;abstract&raquo;</I><BR/><B><I>Barang</I></B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ kode_barang<BR ALIGN="LEFT"/>+ nama_barang<BR ALIGN="LEFT"/># _harga<BR ALIGN="LEFT"/>- __stok<BR ALIGN="LEFT"/></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT"><I>+ tampilkan_detail()</I><BR ALIGN="LEFT"/><I>+ hitung_biaya_simpan()</I><BR ALIGN="LEFT"/>+ hitung_nilai_stok()<BR ALIGN="LEFT"/>+ cetak_laporan()<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+    BarangElektronik [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#E8EEF7"><B>BarangElektronik</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ daya_watt</TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ tampilkan_detail()<BR ALIGN="LEFT"/>+ hitung_biaya_simpan()<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+    BarangPakaian [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#E8EEF7"><B>BarangPakaian</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ ukuran<BR ALIGN="LEFT"/># _bahan<BR ALIGN="LEFT"/></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ tampilkan_detail()<BR ALIGN="LEFT"/>+ hitung_biaya_simpan()<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+    // ASOSIASI: Supplier --> Manufaktur (panah terbuka, garis penuh)
+    Supplier -> Manufaktur [arrowhead=vee, label="  Asosiasi\n  (parameter method)"];
+
+    // KOMPOSISI: Manufaktur <>--> MesinProduksi (belah ketupat HITAM di sisi pemilik)
+    Manufaktur -> MesinProduksi [dir=both, arrowtail=diamond, arrowhead=none, label="  Komposisi\n  mesin_lini", taillabel=""];
+
+    // AGREGASI: Manufaktur <>--> Barang & ArusBarang <>--> Barang (belah ketupat KOSONG)
+    Manufaktur -> Barang [dir=both, arrowtail=odiamond, arrowhead=none, label="  Agregasi\n  produk_jadi"];
+    ArusBarang -> Barang [dir=both, arrowtail=odiamond, arrowhead=none, label="  Agregasi\n  barang"];
+
+    // PEWARISAN: subclass --|> Barang (segitiga kosong)
+    Barang -> BarangElektronik [dir=back, arrowtail=empty, arrowhead=none, label="  Pewarisan"];
+    Barang -> BarangPakaian [dir=back, arrowtail=empty, arrowhead=none, label="  Pewarisan"];
+
+    {rank=same; Manufaktur; ArusBarang;}
+    {rank=same; MesinProduksi; Barang;}
+}
